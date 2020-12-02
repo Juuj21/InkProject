@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block main %}
+    <form action="/profile" method="post" id="principalForm">
+        <div class="form-group">
+            Name:
+            <input class="form-control" type="text" placeholder="Name" name="name">
+            <br>
+
+            Profession:
+            <input class="form-control" type="text" placeholder="Profession" name="profession">
+            <br>
+
+            Description:
+            <input class="form-control" type="text" placeholder="Description" name="description">
+            <br>
+
+            Skills:
+            <input class="form-control" type="text" placeholder="skill 1, skill 2, skill 3..." name="skills">
+            <br>
+
+            Email:
+            <input class="form-control" type="text" placeholder="Email" name="email">
+            <br>
+
+            Phone:
+            <input class="form-control" type="text" placeholder="Phone" name="phone">
+            <br>
+
+            Experience:<br>
+            <select name="experience">
+                <option value=""></option>
+                <option value="starter">Starter</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+            </select>
+            <br>
+            <br>
+
+            Hourly Rate:
+            <input class="form-control" type="number" name="hourlyRate">
+            <br>
+
+            Total Projects:
+            <input class="form-control" type="number" name="totalProjects">
+            <br>
+
+            English Level:<br>
+            <select name="englishLevel">
+                <option value=""></option>
+                <option value="starter">Starter</option>
+                <option value="elementary">Elementary</option>
+                <option value="pre_intermediate">Pre Intermediate</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="upper_intermediate">Upper Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="fluent">Fluent</option>
+            </select>
+            <br>
+            <br>
+
+            Availability:
+            <div class="form-inline">
+                <input class="form-control" type="number" name="availabilityNum" placeholder="Time">
+                <select name="availabilityTime">
+                    <option value="days">Days</option>
+                    <option value="months">Months</option>
+                    <option value="years">Years</option>
+                </select>
+            </div>
+            <br>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

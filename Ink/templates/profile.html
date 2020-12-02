@@ -1,0 +1,384 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block style %}
+    <style>
+        body
+        {
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+        }
+
+        .emp-profile
+        {
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .profile-img
+        {
+            text-align: center;
+            width: 200px;
+            height: 200px;
+        }
+
+        .profile-img img
+        {
+            width: 80%;
+            height: 100%;
+            object-fit: cover;
+            margin-left: 45px;
+        }
+
+        .profile-img .file 
+        {
+            position: relative;
+            overflow: hidden;
+            margin-top: -20%;
+            width: 70%;
+            border: none;
+            border-radius: 0;
+            font-size: 15px;
+            background: #212529b8;
+        }
+
+        .profile-img .file input 
+        {
+            position: absolute;
+            opacity: 0;
+            right: 0;
+            top: 0;
+        }
+
+        .profile-head h5
+        {
+            color: #333;
+        }
+
+        .profile-head h6
+        {
+            color: #0062cc;
+        }
+
+        .proile-rating
+        {
+            font-size: 12px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .proile-rating span
+        {
+            color: #495057;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .profile-head .nav-tabs
+        {
+            margin-bottom:5%;
+        }
+
+        .profile-head .nav-tabs .nav-link
+        {
+            font-weight:600;
+            border: none;
+        }
+
+        .profile-head .nav-tabs .nav-link.active
+        {
+            border: none;
+            border-bottom:2px solid #0062cc;
+        }
+
+        .profile-work
+        {
+            padding: 14%;
+            margin-top: -15%;
+        }
+
+        .profile-work p
+        {
+            font-size: 12px;
+            color: #818182;
+            font-weight: 600;
+            margin-top: 10%;
+        }
+
+        .profile-work a
+        {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-work ul
+        {
+            list-style: none;
+        }
+
+        .profile-tab label
+        {
+            font-weight: 600;
+        }
+
+        .profile-tab p
+        {
+            font-weight: 600;
+            color: #0062cc;
+        }
+    </style>
+    <style>
+        .profile-edit-btn
+        {
+            position: static;
+            border: none;
+            border-radius: 1.5rem;
+            width: 70%;
+            padding: 2%;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+            transition-duration: 0.4s;
+            text-align: center;
+        }
+
+        .profile-edit-btn:hover
+        {
+            background-color: #cec8c8;
+            color: black;
+        }
+
+        .delete-btn
+        {
+            background-color: #d44242; 
+            color: white;
+        }
+
+        .delete-btn:hover
+        {
+            background-color: #df5858;
+            color: black;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="container emp-profile">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <img src="{{ profilepic }}" alt="Profile Picture"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5>
+                            {{ name }}
+                        </h5>
+                        <h6>
+                            {{ profession }}
+                        </h6>
+                        <p class="proile-rating">About me : <span>{{ description }}</span></p>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-work">
+                        <p>SKILLS</p>
+                        {% for skill in skills %}
+                            <a href="">{{ skill }}</a><br/>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ name }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ email }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Phone</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ phone }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Profession</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ profession }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Experience</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ experience }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Hourly Rate</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ hourlyRate }}$/hr</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Total Projects</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ totalProjects }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>English Level</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ englishLevel }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Availability</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ availabilityNum }} {{ availabilityTime }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row" style="text-align: center;">
+                <div class="col-md-2" style="margin-right: -60px;">
+                        <button type="button" class="profile-edit-btn" name="btnAddMore" 
+
+                        onclick="changeLocation('editprofile');" style="padding: 4%;">
+                            Edit Profile
+                        </button>
+                </div>
+
+                <div class="col-md-4" style="margin-right: -75px;">
+                    <button type="button" class="profile-edit-btn" name="btnAddMore" 
+                    onclick="changeLocation('upload');">
+                        Change Profile Picture
+                    </button>
+                </div>      
+        </form>
+                <div class="col-md-3" style="margin-right: -60px;">
+                    <form action="/change-password" method="get">
+
+                        <button type="submit" class="profile-edit-btn" name="btnPassword">
+                            Change Password
+                        </button>
+                    </form>
+                </div>
+
+                <div class="col-md-3" style="margin-right: -60px;">
+                    <form action="/change-username" method="get">
+
+                        <button type="submit" class="profile-edit-btn" name="btnUsername" 
+        
+                        onclick="changeLocation('change-username');">
+                            Change Username
+                        </button>
+                    </form>
+                </div>
+
+                <div class="col-md-3">
+                    <form action="/delete" method="get">
+
+                        <button type="submit" class="profile-edit-btn delete-btn" name="btnDelete" 
+                        
+                        onclick="changeLocation('delete')">
+                            Delete Account
+                        </button>      
+                    </form>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        function changeColor(x, color)
+        {
+            x.style.backgroundColor =  color;
+        }
+        
+        function changeLocation(location)
+        {
+            window.location = location;
+        }
+
+        $(document).ready(function() 
+        {
+            var readURL = function(input) 
+            {
+                if (input.files && input.files[0]) 
+                {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) 
+                    {
+                        $('.profile-pic').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+            $(".file-upload").on('change', function()
+            {
+                readURL(this);
+            });
+
+            $(".upload-button").on('click', function() 
+            {
+                $(".file-upload").click();
+            });
+        });
+    </script>
+{% endblock %}
