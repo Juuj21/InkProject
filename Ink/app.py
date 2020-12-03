@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import redirect, render_template, request, session
 from sqlite3 import connect
+import os
 
 from Ink.__init__ import *
 from Ink.helpers import *
@@ -97,16 +98,32 @@ def profile():
 
         values = []
 
-        for key in infoNames.keys():
-            with connect("ink.db") as connec:
-                cursor = connec.cursor()
-                cursor.execute(f"SELECT {key} FROM profiles WHERE id = {user_id}")
+        userInfo = profiles.query.filter_by(id=user_id).first()
 
-                infoNames[f'{key}'] = cursor.fetchall()
-                cursor.close()
+        infoNames[f'name'] = userInfo.name
+        infoNames[f'description'] = userInfo.description
+        infoNames[f'skills'] = userInfo.skills
+        infoNames[f'email'] = userInfo.email
+        infoNames[f'phone'] = userInfo.phone
+        infoNames[f'profession'] = userInfo.profession
+        infoNames[f'experience'] = userInfo.experience
+        infoNames[f'hourlyRate'] = userInfo.hourlyRate
+        infoNames[f'totalProjects'] = userInfo.totalProjects
+        infoNames[f'englishLevel'] = userInfo.englishLevel
+        infoNames[f'availabilityNum'] = userInfo.availabilityNum
+        infoNames[f'availabilityTime'] = userInfo.availabilityTime
 
         for value in infoNames.values():
-            values.append(value[0][0])
+            if type(value) == type([]):
+                try:
+                    values.append(value[0][0])
+                except:
+                    try:
+                        values.append(value[0])
+                    except:
+                        values.append(value)
+            else:
+                values.append(value)
 
         try:
             values[2] = values[2].split(",")
@@ -145,6 +162,58 @@ def profile():
             values[2] = ["None"]
 
         return render_template("profile.html", name=values[0], description=values[1], skills=values[2], email=values[3], phone=values[4], profession=values[5], experience=values[6], hourlyRate=values[7], totalProjects=values[8], englishLevel=values[9], availabilityNum=values[10], availabilityTime=values[11], profilepic=profilepic)
+
+
+@app.route("/search", methods=["GET", "POST"])
+@login_required
+def search():
+
+    with connect("ink.db") as con:
+        cursor = con.cursor()
+        cursor.execute("SELECT id FROM users")
+        ids = cursor.fetchall()
+        cursor.close()
+
+    names = []
+    professions = []
+    skills = []
+    usersSearch = []
+    emails = []
+
+    for id in ids:
+        user = users.query.filter_by(id=id[0]).first()
+
+        userInfo = profiles.query.filter_by(id=id[0]).first()
+
+        if userInfo.name != None:
+            names.append(userInfo.name)
+
+        if userInfo.profession != None:
+            professions.append(userInfo.profession)
+
+        if userInfo.skills != None:
+            skills.append(userInfo.skills.split(","))
+
+        if userInfo.email != None:
+            emails.append(userInfo.email)
+
+        if user.pfp != None:
+            userInfo = User(f"pfp{id[0]}.jpg", names[id[0]-1], professions[id[0]-1], skills[id[0]-1], emails[id[0]-1])
+            usersSearch.append(userInfo)
+        else:
+            userInfo = User(f"pfpDefault.png", names[id[0]-1], professions[id[0]-1], skills[id[0]-1], emails[id[0]-1])
+            usersSearch.append(userInfo)
+
+    return render_template("search.html", usersSearch=usersSearch)
+
+
+@app.route("/jobs", methods=["GET", "POST"])
+@login_required
+def jobs():
+    if request.method == "POST":
+        return "POST"
+    else:
+        return render_template("jobs.html")
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -259,8 +328,28 @@ def register():
         elif request.form.get("password") != request.form.get("confirmation"):
             return apology("password and password confirmation must match", 403)
 
+        elif not request.form.get("name"):
+            return apology("must provide name", 403)
+
+        elif not request.form.get("profession"):
+            return apology("must provide profession", 403)
+
+        elif not request.form.get("skills"):
+            return apology("must provide skills", 403)
+        
+        elif not request.form.get("email"):
+            return apology("must provide email", 403)
+
+        skills = request.form.get("skills")
+
+        if len(skills.split(",")) > 6:
+            return apology("Can only have 6 skills at max", 403)
+
         username = request.form.get("username").lower()
         password = generate_password_hash(request.form.get("password"))
+        name = request.form.get("name")
+        profession = request.form.get("profession")
+        email = request.form.get("email")
 
         with connect("ink.db") as con:
             cursor = con.cursor()
@@ -276,11 +365,14 @@ def register():
 
             db.session.add(newUser)
             db.session.commit()
-            
-            cursor.execute("SELECT id FROM users WHERE username = ?", (username,))
-            user_id = cursor.fetchone()
 
-            cursor.execute("INSERT INTO profiles (id) VALUES (?)", (user_id))
+            user = users.query.filter_by(username=username).first()
+
+            cursor.execute(f"INSERT INTO profiles (name) VALUES (?)", (name,))
+            cursor.execute(f"UPDATE profiles SET skills = ? WHERE id = {user.id}", (skills,))
+            cursor.execute(f"UPDATE profiles SET profession = ? WHERE id = {user.id}", (profession,))
+            cursor.execute(f"UPDATE profiles SET email = ? WHERE id = {user.id}", (email,))
+
             con.commit()
 
             cursor.close()
@@ -307,12 +399,43 @@ def delete():
             with connect("ink.db") as con:
                 cursor = con.cursor()
                 cursor.execute(f"DELETE FROM profiles WHERE id = {user_id}")
+                con.commit()
+
+                cursor.execute("SELECT id FROM users")
+                usersID = cursor.fetchall()
                 cursor.close()
-            
+
             user = users.query.filter_by(id=user_id).first()
 
             db.session.delete(user)
             db.session.commit()
+
+            try:
+                os.remove(f"E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp{user_id}.jpg")
+            except:
+                print("ERROR DELETING FILE")
+
+            num = 1
+            for id in usersID:
+                if num == int(id[0]):
+                    print(f"{num} == {id[0]}")
+                elif num != int(id[0]):
+
+                    user = users.query.filter_by(id=id[0]).first()
+                    user.id = num
+                    db.session.commit()
+
+                    if user.pfpName != None and user.pfp != None:
+                        user.pfpName = f'pfp{num}.jpg'
+                        db.session.commit()
+
+                        os.rename(r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{id[0]}.jpg', r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{num}.jpg')
+                        
+                    profile = profiles.query.filter_by(id=id[0]).first()
+                    profile.id = num
+                    db.session.commit()
+                num += 1
+
             session.clear()
 
             return redirect("/")

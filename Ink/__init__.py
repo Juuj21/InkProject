@@ -15,8 +15,7 @@ class users(db.Model):
     pfp = db.Column(db.LargeBinary)
 
 class profiles(db.Model):
-    num = db.Column(db.Integer, primary_key=True)
-    id = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500))
     description = db.Column(db.String(1000))
     skills = db.Column(db.String(1000))

@@ -4,31 +4,56 @@
     Register
 {% endblock %}
 
-{% block style %}
+{% block top %}
     <div class="hero-image">
         <div class="hero-text">
             <h1 style="font-size: 100px;">Ink</h1>
             <p style="font-size: 50px">Welcome to Ink!</p>
         </div>
     </div>
+
 {% endblock %}
 
 {% block main %}
     <form action="/register" method="post">
 
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-        </div>
+        <div class="form-group" style="position: relative; margin-left: 220px; margin-right: 220px;">
 
-        <div class="form-group">
-            <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
+            <div class="form-group" style="float: left;">
+                <div class="form-group">
+                    <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+                </div>
 
-        <div class="form-group">
-            <input class="form-control" name="confirmation" placeholder="Password (again)" type="password">
-        </div>
+                <div class="form-group">
+                    <input class="form-control" name="password" placeholder="Password" type="password">
+                </div>
 
-        <button class="btn btn-primary" type="submit">Register</button>
-        
+                <div class="form-group">
+                    <input class="form-control" name="confirmation" placeholder="Password (again)" type="password">
+                </div>
+            </div>
+
+            <div class="form-group" style="float: right; width: 40%;">
+                <div class="form-group">
+                    <input class="form-control" name="name" placeholder="First, middle and/or last name" type="text">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" name="profession" placeholder="Profession" type="text">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" name="skills" placeholder="Skill 1, skill 2, skill 3..." type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" name="email" placeholder="example@example.com" type="email">
+            </div>
+
+            <div>
+                <button style="position: absolute; top: 250px; right: 45%;" class="btn btn-primary" type="submit">Register</button>
+            </div>
+        </div>
     </form>
 {% endblock %}

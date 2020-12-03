@@ -20,25 +20,9 @@ def apology(message, code=400):
 
 
 class User():
-    def __init__(self, id, username, hash, pfpName, pfp):
-        self.id = id
-        self.username = username
-        self.hash = hash
-        self.pfpName = pfpName
-        self.pfp = pfp
-
-
-class Profile():
-    def __init__(self, name, description, skills, email, phone, profession, experience, hourlyRate, totalProjects, englishLevel, availabilityNum, availabilityTime):
+    def __init__(self, profilepic, name, profession, skills, email):
+        self.profilepic = profilepic
         self.name = name
-        self.description = description
+        self.profession = profession
         self.skills = skills
         self.email = email
-        self.phone = phone
-        self.profession = profession
-        self.experience = experience
-        self.hourlyRate = hourlyRate
-        self.totalProjects = totalProjects
-        self.englishLevel = englishLevel
-        self.availabilityNum = availabilityNum
-        self.availabilityTime = availabilityTime

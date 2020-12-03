@@ -4,6 +4,56 @@
     Main
 {% endblock %}
 
+{% block style %}
+    <style>
+        p
+        {
+            font-size: 30px;
+        }
+        
+        li, ul
+        {
+            font-size: 40px;
+        }
+    </style>
+{% endblock %}
+
+{% block top %}
+    <div class="hero-image" style="background-color: #d8f7ff; background-image: none; border-bottom: 4px solid black;">
+        <div class="hero-text">
+            <h1 style="font-size: 100px; color: black;">Ink</h1>
+            <p style="font-size: 50px; color: black;">Welcome to Ink!</p>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main %}
-    Test
+    <br><br><br>
+
+    <p style="text-align: center;">Ink is a network website, where you can<br>look for someone to hire or be hired!</p>
+    <br><br>
+    <p style="text-align: center;">In Ink, you have 3 options on the navigation bar.</p>
+    <br>
+    <ul>
+        <li>Profile</li>
+
+        <br>
+        <p>In profile, you can set your information.<br>You can edit your photo and etc.</p>
+        <br>
+
+        <li>Search</li>
+
+        <br>
+        <p>In search, you can look profiles from other people.</p>
+        <br>
+
+        <li>Jobs</li>
+
+        <br>
+        <p>In jobs, you can look for jobs to apply sending a<br>email, or post jobs for someone else to apply.</p>
+        <br>
+    </ul>
+
+    <p style="text-align: center; font-size: 80px;">Go explore!</p>
+    <br><br><br>
 {% endblock %}
