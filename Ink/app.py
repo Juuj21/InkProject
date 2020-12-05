@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import redirect, render_template, request, session
 from sqlite3 import connect
+from datetime import datetime
 import os
 
 from Ink.__init__ import *
@@ -210,10 +211,60 @@ def search():
 @app.route("/jobs", methods=["GET", "POST"])
 @login_required
 def jobs():
+    user_id = session["user_id"]
     if request.method == "POST":
-        return "POST"
+
+        dayPosted = datetime.now()
+        dayPosted = dayPosted.strftime("%x")
+
+        title = request.form.get("title").replace("'", "´")
+        need = request.form.get("need").replace("'", "´")
+        description = request.form.get("description").replace("'", "´")
+        date = request.form.get("date").replace("'", "´")
+        email = request.form.get("email").replace("'", "´")
+
+        job = {"id":user_id, "needs":need, "description":description, "deadline":date, "dayPosted":dayPosted, "email":email}
+
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+
+            cursor.execute("INSERT INTO jobs (title) VALUES (?)", (title,))
+
+            for key, value in job.items():
+                cursor.execute(f"UPDATE jobs SET {key} = ? WHERE title = '{title}'", (value,))
+            cursor.close()
+
+        return redirect("/jobs")
     else:
-        return render_template("jobs.html")
+        # profiles.query.filter_by(id=id[0]).first()
+
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+            cursor.execute("SELECT title FROM jobs ORDER by primaryKey DESC")
+            dbTitles = cursor.fetchall()
+            cursor.close()
+
+        jobsSearch = []
+
+        for title in dbTitles:
+            with connect("ink.db") as con:
+                cursor = con.cursor()
+                cursor.execute("SELECT needs, description, deadline, dayPosted, email FROM jobs WHERE title = ?", (title[0],))
+                jobInfo = cursor.fetchall()[0]
+                cursor.close()
+
+            if jobInfo[0] != None:
+
+                needs = jobInfo[0]
+                description = jobInfo[1]
+                deadline = jobInfo[2]
+                dayPosted = jobInfo[3]
+                email = jobInfo[4]
+
+                job = Job(title[0], needs, description, deadline, dayPosted, email)
+                jobsSearch.append(job)
+            
+        return render_template("jobs.html", jobsSearch=jobsSearch)
 
 
 @app.route("/upload", methods=["GET", "POST"])

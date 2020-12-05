@@ -26,3 +26,13 @@ class User():
         self.profession = profession
         self.skills = skills
         self.email = email
+
+
+class Job():
+    def __init__(self, title, need, description, deadline, day_posted, email):
+        self.title = title
+        self.need = need
+        self.description = description
+        self.deadline = deadline
+        self.day_posted = day_posted
+        self.email = email

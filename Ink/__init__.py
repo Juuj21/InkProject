@@ -29,6 +29,16 @@ class profiles(db.Model):
     availabilityNum = db.Column(db.Integer)
     availabilityTime = db.Column(db.String(20))
 
+class jobs(db.Model):
+    primaryKey = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer)
+    title = db.Column(db.String(500))
+    needs = db.Column(db.String(500))
+    description = db.Column(db.String(1000))
+    deadline = db.Column(db.String(50))
+    dayPosted = db.Column(db.String(50))
+    email = db.Column(db.String(200))
+
 db.create_all()
 
 
