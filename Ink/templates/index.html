@@ -6,12 +6,12 @@
 
 {% block style %}
     <style>
-        p
+        .text
         {
             font-size: 30px;
         }
         
-        li, ul
+        .text2
         {
             font-size: 40px;
         }
@@ -30,30 +30,30 @@
 {% block main %}
     <br><br><br>
 
-    <p style="text-align: center;">Ink is a network website, where you can<br>look for someone to hire or be hired!</p>
+    <p class="text" style="text-align: center;">Ink is a network website, where you can<br>look for someone to hire or be hired!</p>
     <br><br>
-    <p style="text-align: center;">In Ink, you have 3 options on the navigation bar.</p>
+    <p class="text" style="text-align: center;">In Ink, you have 3 options on the navigation bar.</p>
     <br>
-    <ul>
-        <li>Profile</li>
+    <ul class="text2">
+        <li class="text2">Profile</li>
 
         <br>
-        <p>In profile, you can set your information.<br>You can edit your photo and etc.</p>
+        <p class="text">In profile, you can set your information.<br>You can edit your photo and etc.</p>
         <br>
 
-        <li>Search</li>
+        <li class="text2">Search</li>
 
         <br>
-        <p>In search, you can look profiles from other people.</p>
+        <p class="text">In search, you can look profiles from other people.</p>
         <br>
 
-        <li>Jobs</li>
+        <li class="text2">Jobs</li>
 
         <br>
-        <p>In jobs, you can look for jobs to apply sending a<br>email, or post jobs for someone else to apply.</p>
+        <p class="text">In jobs, you can look for jobs to apply sending a<br>email, or post jobs for someone else to apply.</p>
         <br>
     </ul>
 
-    <p style="text-align: center; font-size: 80px;">Go explore!</p>
+    <p class="text" style="text-align: center; font-size: 80px;">Go explore!</p>
     <br><br><br>
 {% endblock %}

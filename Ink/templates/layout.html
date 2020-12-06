@@ -50,8 +50,6 @@
             </div>
         </nav>
 
-        {% block top %}{% endblock %}
-
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -60,6 +58,8 @@
             </header>
         {% endif %}
 
+        {% block top %}{% endblock %}
+        
         <main class="container p-5">
             {% block main %}{% endblock %}
         </main>

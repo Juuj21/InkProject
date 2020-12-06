@@ -32,7 +32,7 @@
             font-size: 18px;
         }
 
-        button 
+        .btn
         {
             border: none;
             outline: 0;
@@ -46,14 +46,7 @@
             font-size: 18px;
         }
 
-        a 
-        {
-            text-decoration: none;
-            font-size: 22px;
-            color: black;
-        }
-
-        button:hover, a:hover 
+        .btn:hover
         {
             opacity: 0.7;
         }
@@ -81,7 +74,7 @@
 
                 <br>
                 
-                <p><button>{{ usersSearch[i].email }}</button></p>
+                <p><button class="btn">{{ usersSearch[i].email }}</button></p>
             </div>
         {% endfor %}
     </div>
