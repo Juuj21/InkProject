@@ -210,7 +210,7 @@ def search():
 
 @app.route("/jobs", methods=["GET", "POST"])
 @login_required
-def jobs():
+def job():
     user_id = session["user_id"]
     if request.method == "POST":
 
@@ -240,8 +240,28 @@ def jobs():
 
         with connect("ink.db") as con:
             cursor = con.cursor()
+
             cursor.execute("SELECT title FROM jobs ORDER by primaryKey DESC")
             dbTitles = cursor.fetchall()
+
+            cursor.execute("SELECT primaryKey FROM jobs WHERE id = ?", (user_id,))
+            jobsId = cursor.fetchall()
+
+            cursor.execute("SELECT deadline FROM jobs")
+            dbDeadlines = cursor.fetchall()
+
+            present = datetime.now()
+            present = datetime.strftime(present, '%m/%d/%Y')
+
+            for deadline in dbDeadlines:
+                deadline = deadline[0].split("/")
+                date = datetime(int(deadline[2]), int(deadline[1]), int(deadline[0]))
+                date = datetime.strftime(date, '%m/%d/%Y')
+                
+                if date < present:
+                    cursor.execute("DELETE FROM jobs WHERE deadline = ?", (date,))
+                    con.commit()
+                
             cursor.close()
 
         jobsSearch = []
@@ -264,7 +284,62 @@ def jobs():
                 job = Job(title[0], needs, description, deadline, dayPosted, email)
                 jobsSearch.append(job)
             
-        return render_template("jobs.html", jobsSearch=jobsSearch)
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+            cursor.execute("SELECT title, needs, description, deadline, dayPosted, email FROM jobs WHERE id = ?", (user_id,))
+            userJobs = cursor.fetchall()
+            cursor.close()
+        
+        return render_template("jobs.html", jobsSearch=jobsSearch, userJobs=userJobs, jobsId=jobsId)
+
+
+@app.route("/delete-jobs", methods=["POST"])
+@login_required
+def deleteJobs():
+    user_id = session["user_id"]
+
+    jobId = request.form.get("id")
+    password = request.form.get("password")
+
+    primaryKeys = []
+
+    if request.form.get("radio") == "yes":
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+            cursor.execute("SELECT hash FROM users WHERE id = ?", (user_id,))
+            dbHash = cursor.fetchall()
+
+            if not check_password_hash(dbHash[0][0], password):
+                return apology("Wrong password", 403)
+
+            cursor.execute("SELECT primaryKey from jobs")
+            allKeys = cursor.fetchall()
+
+            cursor.execute("SELECT primaryKey from jobs WHERE id = ?", (user_id,))
+            primaryKey = cursor.fetchall()
+
+            for key in primaryKey:
+                primaryKeys.append(key[0])
+
+            if int(jobId) not in primaryKeys:
+                return apology("Invalid job id", 403)
+            else:   
+                cursor.execute("DELETE FROM jobs WHERE primaryKey = ?", (jobId,))
+                con.commit()
+
+                num = 1
+                for key in allKeys:
+                    if num == int(key[0]):
+                        print("")
+                    elif num != int(key[0]):
+                        cursor.execute(f"UPDATE jobs SET primaryKey = ? WHERE primaryKey = {key[0]}", (num,))
+                        con.commit()
+
+            cursor.close()
+        
+        return redirect("/jobs")
+    else:
+        return redirect("/jobs")
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -469,7 +544,7 @@ def delete():
             num = 1
             for id in usersID:
                 if num == int(id[0]):
-                    print(f"{num} == {id[0]}")
+                    print("")
                 elif num != int(id[0]):
 
                     user = users.query.filter_by(id=id[0]).first()
