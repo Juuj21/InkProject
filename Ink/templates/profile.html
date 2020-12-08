@@ -1,83 +1,38 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Profile
+    Main
 {% endblock %}
 
-{% block style %}
+{% block style %} <!-- First style: bootstrap stuff -->
     <style>
         body
         {
-            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+            background-color: white;
         }
 
-        .emp-profile
-        {
-            padding: 3%;
-            margin-top: 3%;
-            margin-bottom: 3%;
-            border-radius: 0.5rem;
-            background: #fff;
-            overflow: hidden;
-        }
-
-        .profile-img
+        .profile-image
         {
             text-align: center;
             width: 200px;
             height: 200px;
         }
 
-        .profile-img img
+        .profile-image img
         {
             width: 80%;
             height: 100%;
             object-fit: cover;
-            margin-left: 45px;
         }
 
-        .profile-img .file 
-        {
-            position: relative;
-            overflow: hidden;
-            margin-top: -20%;
-            width: 70%;
-            border: none;
-            border-radius: 0;
-            font-size: 15px;
-            background: #212529b8;
-        }
-
-        .profile-img .file input 
-        {
-            position: absolute;
-            opacity: 0;
-            right: 0;
-            top: 0;
-        }
-
-        .profile-head h5
+        .profile-head h3
         {
             color: #333;
         }
 
-        .profile-head h6
+        .profile-head h4
         {
             color: #0062cc;
-        }
-
-        .proile-rating
-        {
-            font-size: 12px;
-            color: #818182;
-            margin-top: 5%;
-        }
-
-        .proile-rating span
-        {
-            color: #495057;
-            font-size: 15px;
-            font-weight: 600;
         }
 
         .profile-head .nav-tabs
@@ -99,29 +54,9 @@
 
         .profile-work
         {
-            padding: 14%;
+            margin-left: -8%;
             margin-top: -15%;
-        }
-
-        .profile-work p
-        {
-            font-size: 12px;
-            color: #818182;
-            font-weight: 600;
-            margin-top: 10%;
-        }
-
-        .profile-work a
-        {
-            text-decoration: none;
-            color: #495057;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .profile-work ul
-        {
-            list-style: none;
+            text-align: center;
         }
 
         .profile-tab label
@@ -129,31 +64,134 @@
             font-weight: 600;
         }
 
-        .profile-tab p
+        .profile-tab p, span
         {
             font-weight: 600;
             color: #0062cc;
         }
+
+        .proile-rating
+        {
+            font-size: 12px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .proile-rating span
+        {
+            color: #495057;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        @supports(-webkit-appearance: none) or (-moz-appearance: none) 
+        {
+            input[type='radio']
+            {
+                --border: #BBC1E1;
+                -moz-appearance: none;
+                height: 21px;
+                width: 21px;
+                display: inline-block;
+                vertical-align: center;
+                border: 1px solid var(--bc, var(--border));
+                background: var(--b, var(--background));
+                transition: background .3s, border-color .3s, box-shadow .2s;
+            }
+        }
+
+        input[type=text], input[type=file], input[type=password]
+        {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        body
+        {
+            background: -webkit-linear-gradient(left, #cca0ff, #a0eaff);
+        }
+
     </style>
+    
     <style>
+        .card
+        {
+            box-shadow: 0 4px 8px 0 #00000033;
+            width: auto;
+            height: auto;
+            margin: auto;
+            font-family: arial;
+            padding: 2%;
+            border-radius: 0.5rem;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        @media screen and (max-width: 600px)
+        {
+            h1
+            {
+                font-size: 16px;
+            }
+
+            h2 
+            {
+                font-size: 16px;
+            }
+
+            span
+            {
+                font-size: 16px;
+            }
+
+            .cancel-btn 
+            {
+                width: 100%;
+            }
+
+            .submit-btn
+            {
+                width: 100%;
+            }
+
+            .title
+            {
+                font-size: 15px;
+            }
+
+            .change-order
+            {
+                display: flex; 
+                flex-flow: column-reverse;
+            }
+
+            .modal-content
+            {
+                width: auto;
+            }
+        }
+
         .profile-edit-btn
         {
             position: static;
             border: none;
-            border-radius: 1.5rem;
-            width: 70%;
+            border-radius: 1rem;
+            width: 80%;
             padding: 2%;
             font-weight: 600;
-            color: #6c757d;
+            background-color: #0062cc;
+            color: white;
             cursor: pointer;
-            transition-duration: 0.4s;
             text-align: center;
         }
 
-        .profile-edit-btn:hover
+        button:hover
         {
-            background-color: #cec8c8;
-            color: black;
+            opacity: 0.5;
         }
 
         .delete-btn
@@ -162,182 +200,416 @@
             color: white;
         }
 
-        .delete-btn:hover
+        #personalize-br
         {
-            background-color: #df5858;
-            color: black;
+            display: block;
+            margin: -8px 0;
+            line-height: 22px;
+            content: " ";
+        }
+
+        .cancel-btn 
+        {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+        }
+
+        .submit-btn
+        {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #0062cc;
+            float: right;
+        }
+
+        button 
+        {
+            border-radius: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
         }
     </style>
-    
+
+    <!-- Pop up things -->
+    <style> 
+
+        .modal 
+        {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: auto;
+            height: auto;
+            overflow: auto;
+            background-color: #000000;
+            background-color: #00000066;
+            padding-top: 60px;
+        }
+
+        @media only screen and (min-width: 1025px)
+        {
+            .modal-content
+            {
+                width: 50%;
+            }
+        }
+
+        .modal-content
+        {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto;
+            border: 1px solid #888;
+        }
+
+        .close 
+        {
+            position: absolute;
+            right: 25px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .close:hover, .close:focus
+        {
+            color: red;
+            cursor: pointer;
+        }
+
+        .animate
+        {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s;
+        }
+
+        @-webkit-keyframes animatezoom 
+        {
+            from {-webkit-transform: scale(0)} 
+            to {-webkit-transform: scale(1)}
+        }
+
+        @keyframes animatezoom 
+        {
+            from {transform: scale(0)} 
+            to {transform: scale(1)}
+        }
+
+    </style>
 {% endblock %}
 
 {% block main %}
-    <div class="container emp-profile">
+    <div class="container card">
         <form method="get">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
+                <div class="col-md-3">
+                    <div class="profile-image">
                         <img src="{{ profilepic }}" alt="Profile Picture"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="profile-head">
-                        <h5>
+                        <h3>
                             {{ name }}
-                        </h5>
-                        <h6>
+                        </h3>
+
+                        <h4>
                             {{ profession }}
-                        </h6>
-                        <p class="proile-rating">About me : <span>{{ description }}</span></p>
+                        </h4>
+
+                        <p class="proile-rating"><br></p>
+
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Info</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row change-order">
+                <div class="col-md-3">
                     <div class="profile-work">
-                        <p>SKILLS</p>
-                        {% for skill in skills %}
-                            <a href="">{{ skill }}</a><br/>
-                        {% endfor %}
+                        <br><br>
+
+                        <!-- Change profile picture button -->
+                        <div>
+                            <button type="button" class="profile-edit-btn" onclick="document.getElementById('change-pfp').style.display='block';" style="padding: 3%;">Change Profile Picture</button>
+                        </div>
+                        
+                        <br id="personalize-br">
+
+                        <!-- Edit profile button -->
+                        <div>
+                            <button type="button" class="profile-edit-btn" onclick="document.getElementById('edit-profile').style.display='block';">Edit Profile</button>
+                        </div>
+
+                        <br id="personalize-br">
+
+                        <!-- Change password button -->
+                        <div>
+                            <button type="button" class="profile-edit-btn" onclick="document.getElementById('change-password').style.display='block';">Change Password</button>
+                        </div>
+
+                        <br id="personalize-br">
+
+                        <!-- Change username button -->
+                        <div>
+                            <button type="button" class="profile-edit-btn" onclick="document.getElementById('change-username').style.display='block';">Change Username</button>
+                        </div>
+
+                        <br id="personalize-br">
+
+                        <!-- Delete account button -->
+                        <div>
+                            <button type="button" class="profile-edit-btn delete-btn" onclick="document.getElementById('delete-account').style.display='block';">Delete Account</button>
+                        </div>
                     </div>
                 </div>
+
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
+
                                 <div class="col-md-4">
                                     <label>Name</label>
                                 </div>
+
                                 <div class="col-md-6">
                                     <p>{{ name }}</p>
                                 </div>
+
                             </div>
+
                             <div class="row">
+
                                 <div class="col-md-4">
                                     <label>Email</label>
                                 </div>
+
                                 <div class="col-md-6">
                                     <p>{{ email }}</p>
                                 </div>
+
                             </div>
+
                             <div class="row">
-                                <div class="col-md-4">
-                                    <label>Phone</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ phone }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
+
                                 <div class="col-md-4">
                                     <label>Profession</label>
                                 </div>
+
                                 <div class="col-md-6">
                                     <p>{{ profession }}</p>
                                 </div>
+
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
                             <div class="row">
+
                                 <div class="col-md-4">
-                                    <label>Experience</label>
+                                    <label>Skills</label>
                                 </div>
+
                                 <div class="col-md-6">
-                                    <p>{{ experience }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Hourly Rate</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ hourlyRate }}$/hr</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Total Projects</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ totalProjects }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>English Level</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ englishLevel }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label>Availability</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ availabilityNum }} {{ availabilityTime }}</p>
+                                {% for skill in skills -%}
+                                    <span>{{ skill }}{% if not loop.last %},{% else %}.{% endif %}
+                                        {% if loop.index == 3 %}<br>{% endif %}
+                                    </span>
+                                {% endfor -%}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="row" style="text-align: center;">
-                <div class="col-md-2" style="margin-right: -60px;">
-                        <button type="button" class="profile-edit-btn" name="btnAddMore" 
-
-                        onclick="changeLocation('editprofile');" style="padding: 4%;">
-                            Edit Profile
-                        </button>
-                </div>
-
-                <div class="col-md-4" style="margin-right: -75px;">
-                    <button type="button" class="profile-edit-btn" name="btnAddMore" 
-                    onclick="changeLocation('upload');">
-                        Change Profile Picture
-                    </button>
-                </div>      
         </form>
-                <div class="col-md-3" style="margin-right: -60px;">
-                    <form action="/change-password" method="get">
 
-                        <button type="submit" class="profile-edit-btn" name="btnPassword">
-                            Change Password
-                        </button>
-                    </form>
+        <div id="change-pfp" class="modal">
+            <form class="modal-content animate" action="/upload" method="post" enctype="multipart/form-data">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('change-pfp').style.display='none'" class="close" title="Close Modal">&times;</span>
                 </div>
 
-                <div class="col-md-3" style="margin-right: -60px;">
-                    <form action="/change-username" method="get">
+                <br>
 
-                        <button type="submit" class="profile-edit-btn" name="btnUsername" 
-        
-                        onclick="changeLocation('change-username');">
-                            Change Username
-                        </button>
-                    </form>
+                <div class="container" style="text-align: center; font-size: 1.5em;">
+                    <label for="inputFile" style="font-size: 2em;">File Input</label><br>
+                    <br>
+                    <input type="file" name="inputFile" accept="image/x-png,image/gif,image/jpeg" required>
                 </div>
 
-                <div class="col-md-3">
-                    <form action="/delete" method="get">
+                <br><br>
 
-                        <button type="submit" class="profile-edit-btn delete-btn" name="btnDelete" 
-                        
-                        onclick="changeLocation('delete')">
-                            Delete Account
-                        </button>      
-                    </form>
+                <div class="container" style="background-color:#f1f1f1">
+                    <br>
+                    <button type="button" onclick="document.getElementById('change-pfp').style.display='none'" class="cancel-btn">Cancel</button>
+
+                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                    <br><br>
                 </div>
-            </div>
+            </form>
+        </div>
+
+        <div id="edit-profile" class="modal">
+            <form class="modal-content animate" action="/profile" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('edit-profile').style.display='none'" class="close" title="Close Modal">&times;</span>
+                </div>
+
+                <div class="container form-group">
+                    <br>
+                    <label for="name" style="font-weight: 600;">Name: </label>
+                    <input class="form-control" type="text" placeholder="Name" name="name" value="{{ name }}">
+
+                    <br><br>
+
+                    <label for="profession" style="font-weight: 600;">Profession: </label>
+                    <input class="form-control" type="text" placeholder="Profession" name="profession" value="{{ profession }}">
+
+                    <br><br>
+
+                    <label for="skills" style="font-weight: 600;">Skills: </label>
+                    <input class="form-control" type="text" placeholder="skill 1, skill 2, skill 3..." name="skills" value="{% for skill in skills -%}{{ skill }}{% if not loop.last %},{% else %}.{% endif %}{% endfor -%}">
+
+                    <br><br>
+
+                    <label for="email" style="font-weight: 600;">Email: </label>
+                    <input class="form-control" type="text" placeholder="Email" name="email" value="{{ email }}">
+
+                    <br><br>
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <br>
+                    <button type="button" onclick="document.getElementById('edit-profile').style.display='none'" class="cancel-btn">Cancel</button>
+
+                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                    <br><br>
+                </div>
+            </form>
+        </div>
+
+        <div id="change-password" class="modal">
+            <form class="modal-content animate" action="/change-password" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('change-password').style.display='none'" class="close" title="Close Modal">&times;</span>
+                </div>
+
+                <div class="container">
+                    <br><br>
+
+                    <div class="form-group">
+                        <input class="form-control" name="currentPassword" placeholder="Current password" type="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" name="newPassword" placeholder="New password" type="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" name="confirmNewPassword" placeholder="New password (again)" type="password" required>
+                    </div>
+                    
+                </div>
+
+                <br>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('change-password').style.display='none'" class="cancel-btn">Cancel</button>
+
+                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="change-username" class="modal">
+            <form class="modal-content animate" action="/change-username" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('change-username').style.display='none'" class="close" title="Close Modal">&times;</span>
+                </div>
+
+                <div class="container">
+                    <br><br>
+
+                    <div class="form-group">
+                        <input class="form-control" name="newUsername" placeholder="New username" type="text" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" name="password" placeholder="Your password" type="password" required>
+                    </div>
+
+                    <br>
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('change-username').style.display='none'" class="cancel-btn">Cancel</button>
+
+                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="delete-account" class="modal">
+            <form class="modal-content animate" action="/delete" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('delete-account').style.display='none'" class="close" title="Close Modal">&times;</span>
+                </div>
+
+                <div class="container">
+                    <br><br>
+
+                    <h3 class="title">Are you sure you want to delete your account?</h3>
+
+                    <br>
+
+                    <div class="form-check">
+                        <input type="radio" name="radio" id="yes" value="yes" content="yes" required>
+
+                        <label class="form-check-label" for="yes" style="font-size: 20px;">
+                            &nbsp;Yes :(
+                        </label>
+                    </div>
+
+                    <br>
+
+                    <div class="form-check">
+                        <input type="radio" name="radio" id="no" value="no" content="no" required checked>
+
+                        <label class="form-check-label" for="no" style="font-size: 20px;">
+                            &nbsp;No :)
+                        </label>
+                    </div>
+
+                    <br>
+
+                    <h3 class="title" for="password">Password:</h3>
+
+                    <input type="password" placeholder="Password" name="password" id="password" required>
+
+                    <br>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('delete-account').style.display='none'" class="cancel-btn">Cancel</button>
+
+                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
 

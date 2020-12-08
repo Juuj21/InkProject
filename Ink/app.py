@@ -84,7 +84,7 @@ def profile():
         else:
             pfp = f"static/pfp/pfp{user_id}.jpg"
 
-        return render_template("profile_redo.html", name=infoValues[0], skills=infoValues[1], email=infoValues[2], profession=infoValues[3], profilepic=pfp)
+        return render_template("profile.html", name=infoValues[0], skills=infoValues[1], email=infoValues[2], profession=infoValues[3], profilepic=pfp)
 
     else:
         infoNames = {'name':"", 'skills':"", 'email':"", 'profession':""}
@@ -146,7 +146,7 @@ def profile():
         if values[1] == None:
             values[1] = ["None"]
 
-        return render_template("profile_redo.html", name=values[0], skills=values[1], email=values[2], profession=values[3],profilepic=profilepic)
+        return render_template("profile.html", name=values[0], skills=values[1], email=values[2], profession=values[3],profilepic=profilepic)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -361,7 +361,7 @@ def upload():
 @app.route("/editprofile", methods=["POST"])
 @login_required
 def editprofile():
-    return render_template("profile_redo.html")
+    return render_template("profile.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
