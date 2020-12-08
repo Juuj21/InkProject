@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Main
+{% endblock %}
+
+{% block style %}
+    <style>
+        #container
+        {
+            padding: 16px;
+            border: 1px solid black;
+            border-radius: 1rem;  
+        }
+        body
+        {
+            background-color: white;
+        }
+
+        img
+        {
+            width: 20%;
+            height: auto;
+            position: absolute;
+            right: 0px;
+
+        }
+
+        #crop
+        {
+            width: 20%;
+            height: 20%;
+            object-fit: cover;
+        }
+
+        .card
+        {
+            box-shadow: 0 4px 8px 0 #00000033;
+            width: auto;
+            max-width: 1000px;
+            height: auto;
+            max-height: 470px;
+            margin: auto;
+            font-family: arial;
+            padding: 2%;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h1>Name: {{ name }}</h1>
+        <h2>Career: {{ profession }}</h2>
+        <div id="crop">
+            <img src="{{ profilepic }}" alt="Profile Picture"/>
+        </div>
+    </div>
+{% endblock %}

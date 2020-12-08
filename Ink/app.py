@@ -92,7 +92,7 @@ def profile():
         else:
             pfp = f"static/pfp/pfp{user_id}.jpg"
 
-        return render_template("profile_render.html", name=infoValues[0], description=infoValues[1], skills=infoValues[2], email=infoValues[3], phone=infoValues[4], profession=infoValues[5], experience=infoValues[6], hourlyRate=infoValues[7], totalProjects=infoValues[8], englishLevel=infoValues[9], availabilityNum=infoValues[10], availabilityTime=infoValues[11], profilepic=pfp)
+        return render_template("profile_redo.html", name=infoValues[0], description=infoValues[1], skills=infoValues[2], email=infoValues[3], phone=infoValues[4], profession=infoValues[5], experience=infoValues[6], hourlyRate=infoValues[7], totalProjects=infoValues[8], englishLevel=infoValues[9], availabilityNum=infoValues[10], availabilityTime=infoValues[11], profilepic=pfp)
 
     else:
         infoNames = {'name':"", 'description':"", 'skills':"", 'email':"", 'phone':"", 'profession':"", 'experience':"", 'hourlyRate':0, 'totalProjects':0, 'englishLevel':"", 'availabilityNum':0, 'availabilityTime':""}
