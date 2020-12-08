@@ -21,19 +21,11 @@ def profile():
 
     if request.method == "POST":
         name = request.form.get("name")
-        description = request.form.get("description")
         skills = request.form.get("skills")
         email = request.form.get("email")
-        phone = request.form.get("phone")
         profession = request.form.get("profession")
-        experience = request.form.get("experience")
-        hourlyRate = request.form.get("hourlyRate")
-        totalProjects = request.form.get("totalProjects")
-        englishLevel = request.form.get("englishLevel")
-        availabilityNum = request.form.get("availabilityNum")
-        availabilityTime = request.form.get("availabilityTime")
 
-        info = {'name':name, 'description':description, 'skills':skills, 'email':email, 'phone':phone, 'profession':profession, 'experience':experience, 'hourlyRate':hourlyRate, 'totalProjects':totalProjects, 'englishLevel':englishLevel, 'availabilityNum':availabilityNum, 'availabilityTime':availabilityTime}
+        info = {'name':name, 'skills':skills, 'email':email, 'profession':profession}
 
         if skills != "" and skills != None:
             skills = skills.split(",")
@@ -79,7 +71,7 @@ def profile():
         for values in info.values():
             infoValues.append(values[0][0])
 
-        infoValues[2] = infoValues[2].split(',')
+        infoValues[1] = infoValues[1].split(',')
 
         with connect("ink.db") as con:
             cursor = con.cursor()
@@ -92,28 +84,20 @@ def profile():
         else:
             pfp = f"static/pfp/pfp{user_id}.jpg"
 
-        return render_template("profile_redo.html", name=infoValues[0], description=infoValues[1], skills=infoValues[2], email=infoValues[3], phone=infoValues[4], profession=infoValues[5], experience=infoValues[6], hourlyRate=infoValues[7], totalProjects=infoValues[8], englishLevel=infoValues[9], availabilityNum=infoValues[10], availabilityTime=infoValues[11], profilepic=pfp)
+        return render_template("profile_redo.html", name=infoValues[0], skills=infoValues[1], email=infoValues[2], profession=infoValues[3], profilepic=pfp)
 
     else:
-        infoNames = {'name':"", 'description':"", 'skills':"", 'email':"", 'phone':"", 'profession':"", 'experience':"", 'hourlyRate':0, 'totalProjects':0, 'englishLevel':"", 'availabilityNum':0, 'availabilityTime':""}
+        infoNames = {'name':"", 'skills':"", 'email':"", 'profession':""}
 
         values = []
 
         userInfo = profiles.query.filter_by(id=user_id).first()
 
         infoNames[f'name'] = userInfo.name
-        infoNames[f'description'] = userInfo.description
         infoNames[f'skills'] = userInfo.skills
         infoNames[f'email'] = userInfo.email
-        infoNames[f'phone'] = userInfo.phone
         infoNames[f'profession'] = userInfo.profession
-        infoNames[f'experience'] = userInfo.experience
-        infoNames[f'hourlyRate'] = userInfo.hourlyRate
-        infoNames[f'totalProjects'] = userInfo.totalProjects
-        infoNames[f'englishLevel'] = userInfo.englishLevel
-        infoNames[f'availabilityNum'] = userInfo.availabilityNum
-        infoNames[f'availabilityTime'] = userInfo.availabilityTime
-
+        
         for value in infoNames.values():
             if type(value) == type([]):
                 try:
@@ -127,15 +111,15 @@ def profile():
                 values.append(value)
 
         try:
-            values[2] = values[2].split(",")
+            values[1] = values[1].split(",")
         except:
             try:
-                values[2][0] = values[2].split(",")
+                values[1][0] = values[1].split(",")
             except:
                 try:
-                    values[2][0] = values[2][0]
+                    values[1][0] = values[1][0]
                 except:
-                    values[2] = values[2]
+                    values[1] = values[1]
 
         with connect("ink.db") as con:
             cursor = con.cursor()
@@ -159,10 +143,10 @@ def profile():
             else:
                 profilepic = "static/pfp/pfpDefault.png"
 
-        if values[2] == None:
-            values[2] = ["None"]
+        if values[1] == None:
+            values[1] = ["None"]
 
-        return render_template("profile_redo.html", name=values[0], description=values[1], skills=values[2], email=values[3], phone=values[4], profession=values[5], experience=values[6], hourlyRate=values[7], totalProjects=values[8], englishLevel=values[9], availabilityNum=values[10], availabilityTime=values[11], profilepic=profilepic)
+        return render_template("profile_redo.html", name=values[0], skills=values[1], email=values[2], profession=values[3],profilepic=profilepic)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -342,49 +326,42 @@ def deleteJobs():
         return redirect("/jobs")
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload", methods=["POST"])
 @login_required
 def upload():
     user_id = session["user_id"]
 
-    if request.method == "POST":
-        pfp = "static/pfp/pfpDefault.png"
-        file = request.files['inputFile']
+    pfp = "static/pfp/pfpDefault.png"
+    file = request.files['inputFile']
 
-        fileName = f"pfp{user_id}.jpg"
-        fileData = file.read()
+    fileName = f"pfp{user_id}.jpg"
+    fileData = file.read()
 
-        if "x" in str(fileData):
-            user = users.query.filter_by(id=user_id).first()
-            user.pfpName = fileName
-            user.pfp = fileData
-            db.session.commit()
-
-        else:
-            with connect("ink.db") as con:
-                cursor = con.cursor()
-                cursor.execute(f"SELECT pfp FROM users WHERE id = {user_id}")
-                pfp = cursor.fetchall()[0][0]
-                cursor.close()
-
-            if "x" in str(pfp):
-                pfp = f"static/pfp/pfp{user_id}.jpg"
-            else:
-                pfp = "static/pfp/pfpDefault.png"
-
-        return redirect("/profile")
+    if "x" in str(fileData):
+        user = users.query.filter_by(id=user_id).first()
+        user.pfpName = fileName
+        user.pfp = fileData
+        db.session.commit()
 
     else:
-        return render_template("upload.html")
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+            cursor.execute(f"SELECT pfp FROM users WHERE id = {user_id}")
+            pfp = cursor.fetchall()[0][0]
+            cursor.close()
+
+        if "x" in str(pfp):
+            pfp = f"static/pfp/pfp{user_id}.jpg"
+        else:
+            pfp = "static/pfp/pfpDefault.png"
+
+    return redirect("/profile")
 
 
-@app.route("/editprofile", methods=["GET", "POST"])
+@app.route("/editprofile", methods=["POST"])
 @login_required
 def editprofile():
-    if request.method == "POST":
-        return render_template("profile_redo.html")
-    else:
-        return render_template("editprofile.html")
+    return render_template("profile_redo.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -515,132 +492,123 @@ def logout():
     return redirect("/")
 
 
-@app.route("/delete", methods=["GET", "POST"])
+@app.route("/delete", methods=["POST"])
 @login_required
 def delete():
-    if request.method == "POST":
-        if request.form.get("radio") == "yes":
-            user_id = session["user_id"]
+    if request.form.get("radio") == "yes":
+        user_id = session["user_id"]
 
-            with connect("ink.db") as con:
-                cursor = con.cursor()
-                cursor.execute(f"DELETE FROM profiles WHERE id = {user_id}")
-                con.commit()
+        with connect("ink.db") as con:
+            cursor = con.cursor()
+            cursor.execute(f"DELETE FROM profiles WHERE id = {user_id}")
+            con.commit()
 
-                cursor.execute("SELECT id FROM users")
-                usersID = cursor.fetchall()
-                cursor.close()
+            cursor.execute("SELECT id FROM users")
+            usersID = cursor.fetchall()
+            cursor.close()
 
-            user = users.query.filter_by(id=user_id).first()
+        user = users.query.filter_by(id=user_id).first()
 
-            db.session.delete(user)
-            db.session.commit()
+        db.session.delete(user)
+        db.session.commit()
 
-            try:
-                os.remove(f"E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp{user_id}.jpg")
-            except:
-                print("ERROR DELETING FILE")
+        try:
+            os.remove(f"E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp{user_id}.jpg")
+        except:
+            print("ERROR DELETING FILE")
 
-            num = 1
-            for id in usersID:
-                if num == int(id[0]):
-                    print("")
-                elif num != int(id[0]):
+        num = 1
+        for id in usersID:
+            if num == int(id[0]):
+                print("")
+            elif num != int(id[0]):
 
-                    user = users.query.filter_by(id=id[0]).first()
-                    user.id = num
+                user = users.query.filter_by(id=id[0]).first()
+                user.id = num
+                db.session.commit()
+
+                if user.pfpName != None and user.pfp != None:
+                    user.pfpName = f'pfp{num}.jpg'
                     db.session.commit()
 
-                    if user.pfpName != None and user.pfp != None:
-                        user.pfpName = f'pfp{num}.jpg'
-                        db.session.commit()
+                    os.rename(r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{id[0]}.jpg', r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{num}.jpg')
+                    
+                profile = profiles.query.filter_by(id=id[0]).first()
+                profile.id = num
+                db.session.commit()
+            num += 1
 
-                        os.rename(r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{id[0]}.jpg', r'E:\2. Documentos\CS50\Final Project\InkProject\Ink\static\pfp\pfp' + f'{num}.jpg')
-                        
-                    profile = profiles.query.filter_by(id=id[0]).first()
-                    profile.id = num
-                    db.session.commit()
-                num += 1
+        session.clear()
 
-            session.clear()
-
-            return redirect("/")
-        else:
-            return redirect("/profile")
+        return redirect("/")
     else:
-        return render_template("delete.html")
+        return redirect("/profile")
 
 
-@app.route("/change-password", methods=["GET", "POST"])
+@app.route("/change-password", methods=["POST"])
 @login_required
 def change_password():
-    if request.method == "POST":
-        user_id = session["user_id"]
+    user_id = session["user_id"]
 
-        with connect("ink.db") as con:
-            cursor = con.cursor()
-            cursor.execute(f"SELECT hash FROM users WHERE id = {user_id}")
-            dbHash = cursor.fetchall()
-            cursor.close()
+    with connect("ink.db") as con:
+        cursor = con.cursor()
+        cursor.execute(f"SELECT hash FROM users WHERE id = {user_id}")
+        dbHash = cursor.fetchall()
+        cursor.close()
 
-        if not request.form.get("currentPassword"):
-            return apology("You have to type your password", 403)
-        
-        elif not request.form.get("newPassword"):
-            return apology("You have to type your new password", 403)
+    if not request.form.get("currentPassword"):
+        return apology("You have to type your password", 403)
+    
+    elif not request.form.get("newPassword"):
+        return apology("You have to type your new password", 403)
 
-        elif not request.form.get("confirmNewPassword"):
-            return apology("You have to type your new password confirmation", 403)
+    elif not request.form.get("confirmNewPassword"):
+        return apology("You have to type your new password confirmation", 403)
 
-        currentPassword = request.form.get("currentPassword")
-        newPassword = request.form.get("newPassword")
-        confirmNewPassword = request.form.get("confirmNewPassword")
+    currentPassword = request.form.get("currentPassword")
+    newPassword = request.form.get("newPassword")
+    confirmNewPassword = request.form.get("confirmNewPassword")
 
-        if not check_password_hash(dbHash[0][0], currentPassword):
-            return apology("Wrong password", 403)
-        
-        elif newPassword != confirmNewPassword:
-            return apology("New password and its confirmation must match", 403)
+    if not check_password_hash(dbHash[0][0], currentPassword):
+        return apology("Wrong password", 403)
+    
+    elif newPassword != confirmNewPassword:
+        return apology("New password and its confirmation must match", 403)
 
-        user = users.query.filter_by(id=user_id).first()
+    user = users.query.filter_by(id=user_id).first()
 
-        user.hash = generate_password_hash(newPassword)
-        db.session.commit()
-        
-        return redirect("/profile")
-    else:
-        return render_template("password.html")
+    user.hash = generate_password_hash(newPassword)
+    db.session.commit()
+    
+    return redirect("/profile")
 
 
-@app.route("/change-username", methods=["GET", "POST"])
+@app.route("/change-username", methods=["POST"])
 @login_required
 def change_username():
-    if request.method == "POST":
-        user_id = session["user_id"]
+    user_id = session["user_id"]
 
-        with connect("ink.db") as con:
-            cursor = con.cursor()
-            cursor.execute(f"SELECT hash FROM users WHERE id = {user_id}")
-            dbHash = cursor.fetchall()
-            cursor.close()
+    with connect("ink.db") as con:
+        cursor = con.cursor()
+        cursor.execute(f"SELECT hash FROM users WHERE id = {user_id}")
+        dbHash = cursor.fetchall()
+        cursor.close()
 
-        if not request.form.get("newUsername"):
-            return apology("Must contain your new username", 403)
-        
-        elif not request.form.get("password"):
-            return apology("Must contain your password", 403)
+    if not request.form.get("newUsername"):
+        return apology("Must contain your new username", 403)
+    
+    elif not request.form.get("password"):
+        return apology("Must contain your password", 403)
 
-        newUsername = request.form.get("newUsername")
-        password = request.form.get("password")
+    newUsername = request.form.get("newUsername")
+    password = request.form.get("password")
 
-        if not check_password_hash(dbHash[0][0], password):
-            return apology("Wrong password", 403)
+    if not check_password_hash(dbHash[0][0], password):
+        return apology("Wrong password", 403)
 
-        user = users.query.filter_by(id=user_id).first()
+    user = users.query.filter_by(id=user_id).first()
 
-        user.username = newUsername
-        db.session.commit()
+    user.username = newUsername
+    db.session.commit()
 
-        return redirect("/profile")
-    else:
-        return render_template("username.html")
+    return redirect("/profile")

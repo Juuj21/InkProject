@@ -6,6 +6,12 @@
 
 {% block style %}
     <style>
+
+        body
+        {
+            background: -webkit-linear-gradient(left, #cca0ff, #a0eaff);
+        }
+
         .card
         {
             box-shadow: 0 4px 8px 0 #00000033;
@@ -33,7 +39,6 @@
                 background: var(--b, var(--background));
                 transition: background .3s, border-color .3s, box-shadow .2s;
             }
-            
         }
         
         h1, h5, h6, p
@@ -53,7 +58,7 @@
 
         button 
         {
-            background-color: #4CAF50;
+            background-color: #0062cc;
             color: white;
             padding: 14px 20px;
             margin: 8px 0;
@@ -78,7 +83,7 @@
         {
             width: auto;
             padding: 10px 18px;
-            background-color: #4CAF50;
+            background-color: #0062cc;
             float: right;
         }
 
@@ -159,16 +164,6 @@
 
         @media screen and (max-width: 600px) 
         {
-            .cancelbtn 
-            {
-                width: 100%;
-            }
-
-            .postbtn
-            {
-                width: 100%;
-            }
-
             .title
             {
                 font-size: 15px;
@@ -356,7 +351,7 @@
 
                     <br>
 
-                    <h6 class="title" for="id">Digit the id of the job:</h6>
+                    <h6 class="title" for="id">Type the id of the job:</h6>
                     <h7>The job's id is located at the job card in "My Posted Jobs"</h7>
                     <br>
                     <input type="number"
@@ -377,7 +372,16 @@
                     id="password"
                     required>
 
-                    <button type="submit" name="deleteBtn" id="deleteBtn" onclick="submitForm()">Submit</button>
+                    <br>
+                    <br>
+
+                    <div class="container">
+
+                        <button type="button" onclick="document.getElementById('delete').style.display='none'" class="cancelbtn" style="float: left;">Cancel</button>
+
+                        <button type="submit" name="deleteBtn" id="deleteBtn" onclick="submitForm()" style="width: auto; float: right; padding-top: 4%; padding-bottom: 4%; padding-right: 8%; padding-left: 8%;">Post</button>
+
+                    </div>
                 </div>
             </form>
         </div>

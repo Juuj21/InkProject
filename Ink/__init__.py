@@ -17,17 +17,10 @@ class users(db.Model):
 class profiles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(500))
-    description = db.Column(db.String(1000))
     skills = db.Column(db.String(1000))
     email = db.Column(db.String(200))
-    phone = db.Column(db.String(50))
     profession = db.Column(db.String(100))
-    experience = db.Column(db.String(20))
-    hourlyRate = db.Column(db.Integer)
-    totalProjects = db.Column(db.Integer)
-    englishLevel = db.Column(db.String(20))
-    availabilityNum = db.Column(db.Integer)
-    availabilityTime = db.Column(db.String(20))
+    
 
 class jobs(db.Model):
     primaryKey = db.Column(db.Integer, primary_key=True)

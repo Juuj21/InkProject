@@ -19,3 +19,16 @@
     transform: translate(-50%, -50%);
     color: white;
 }
+
+.hero-image-main-page
+{
+    background: -webkit-linear-gradient(left, #cca0ff, #a0eaff);
+    background-color: #cccccc;
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    display: block;
+    border-bottom: 4px solid black;
+}
