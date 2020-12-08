@@ -382,7 +382,7 @@ def upload():
 @login_required
 def editprofile():
     if request.method == "POST":
-        return render_template("profile.html")
+        return render_template("profile_redo.html")
     else:
         return render_template("editprofile.html")
 

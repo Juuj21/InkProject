@@ -4,35 +4,108 @@
     Main
 {% endblock %}
 
-{% block style %}
+{% block style %} <!-- First style: bootstrap stuff -->
     <style>
-        #container
-        {
-            padding: 16px;
-            border: 1px solid black;
-            border-radius: 1rem;  
-        }
         body
         {
             background-color: white;
         }
 
-        img
+        .profile-image
         {
-            width: 20%;
-            height: auto;
-            position: absolute;
-            right: 0px;
-
+            text-align: center;
+            width: 200px;
+            height: 200px;
         }
 
-        #crop
+        .profile-image img
         {
-            width: 20%;
-            height: 20%;
+            width: 80%;
+            height: 100%;
             object-fit: cover;
         }
 
+        .profile-head h3
+        {
+            color: #333;
+        }
+
+        .profile-head h4
+        {
+            color: #0062cc;
+        }
+
+        .profile-head .nav-tabs
+        {
+            margin-bottom:5%;
+        }
+
+        .profile-head .nav-tabs .nav-link
+        {
+            font-weight:600;
+            border: none;
+        }
+
+        .profile-head .nav-tabs .nav-link.active
+        {
+            border: none;
+            border-bottom:2px solid #0062cc;
+        }
+
+        .profile-work
+        {
+            padding: 14%;
+            margin-top: -15%;
+        }
+
+        .profile-work p
+        {
+            font-size: 12px;
+            color: #818182;
+            font-weight: 600;
+            margin-top: 10%;
+        }
+
+        .profile-work a
+        {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-work ul
+        {
+            list-style: none;
+        }
+
+        .profile-tab label
+        {
+            font-weight: 600;
+        }
+
+        .profile-tab p, span
+        {
+            font-weight: 600;
+            color: #0062cc;
+        }
+
+        .proile-rating
+        {
+            font-size: 12px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .proile-rating span
+        {
+            color: #495057;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+    </style>
+    <style>
         .card
         {
             box-shadow: 0 4px 8px 0 #00000033;
@@ -43,16 +116,127 @@
             margin: auto;
             font-family: arial;
             padding: 2%;
+            border-radius: 0.5rem;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        @media screen and (max-width: 600px)
+        {
+            h1
+            {
+                font-size: 16px;
+            }
+            h2 
+            {
+                font-size: 16px;
+            }
+            span
+            {
+                font-size: 16px;
+            }
         }
     </style>
 {% endblock %}
 
 {% block main %}
-    <div class="card">
-        <h1>Name: {{ name }}</h1>
-        <h2>Career: {{ profession }}</h2>
-        <div id="crop">
-            <img src="{{ profilepic }}" alt="Profile Picture"/>
-        </div>
+    <div class="container card">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="profile-image">
+                        <img src="{{ profilepic }}" alt="Profile Picture"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h3>
+                            {{ name }}
+                        </h3>
+
+                        <h4>
+                            {{ profession }}
+                        </h4>
+
+                        <p class="proile-rating"><br></p>
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Info</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="profile-work">
+                        <br>
+                        <p>&nbsp;</p>
+
+                        {% for skill in skills %}
+                            <a>&nbsp;</a><br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Name</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p>{{ name }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Email</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p>{{ email }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Profession</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p>{{ profession }}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <label>Skills</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                {% for skill in skills -%}
+                                    <span>{{ skill }}{% if not loop.last %},{% else %}.{% endif %}
+                                        {% if loop.index == 3 %}<br>{% endif %}
+                                    </span>
+                                {% endfor -%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}
