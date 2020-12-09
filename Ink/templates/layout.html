@@ -20,7 +20,7 @@
     </head>
     <body>
         
-        <nav class="navbar navbar-expand-md navbar-light bg-light border">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="myNavbar">
             <a class="navbar-brand" href="/"><span class="blue">I</span><span class="red">n</span><span class="yellow">k</span></a>
 
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
@@ -31,20 +31,20 @@
 
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/jobs">Job</a></li>
+                    <ul class="navbar-nav mr-auto mt-1">
+                        <li class="nav-item"><a class="myLink" href="/profile">Profile</a></li>
+                        <li class="nav-item"><a class="myLink" href="/search">Search</a></li>
+                        <li class="nav-item"><a class="myLink" href="/jobs">Job</a></li>
                     </ul>
 
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    <ul class="navbar-nav ml-auto mt-1">
+                        <li class="nav-item"><a class="myLink" href="/logout">Log Out</a></li>
                     </ul>
 
                 {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    <ul class="navbar-nav ml-auto mt-1">
+                        <li class="nav-item"><a class="myLink" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="myLink" href="/login">Log In</a></li>
                     </ul>
                 {% endif %}
             </div>
@@ -65,5 +65,18 @@
         </main>
 
         {% block script %}{% endblock %}
+
+        <script>
+            window.onscroll = function() {stickNavbar()};
+
+            var navbar = document.getElementById("myNavbar");
+
+            var sticky = navbar.offsetTop;
+
+            function stickNavbar()
+            {
+                navbar.classList.add("sticky");
+            }
+        </script>
     </body>
 </html>

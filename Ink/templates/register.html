@@ -11,15 +11,59 @@
             <p style="font-size: 50px">Welcome to Ink!</p>
         </div>
     </div>
+{% endblock %}
 
+{% block style %}
+    <!-- Computer only -->
+    <style>
+        @media only screen and (min-width: 1025px)
+        {
+            #form
+            {
+                float: left;
+            }
+
+            #form2
+            {
+                float: right; 
+                width: 40%;
+            }
+
+            #br
+            {
+                display: none;
+            }
+        }
+    </style>
+
+    <!-- Cellphone only -->
+    <style>
+        @media screen and (max-width: 600px)
+        {
+            #form
+            {
+                float: none;
+            }
+            
+            #br
+            {
+                display: block;
+            }
+
+            #button
+            {
+                text-align: center;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block main %}
     <form action="/register" method="post">
 
-        <div class="form-group" style="position: relative; margin-left: 220px; margin-right: 220px;">
+        <div class="form-group">
 
-            <div class="form-group" style="float: left;">
+            <div class="form-group" id="form">
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
                 </div>
@@ -33,7 +77,9 @@
                 </div>
             </div>
 
-            <div class="form-group" style="float: right; width: 40%;">
+            <br id="br">
+
+            <div class="form-group" id="form2">
                 <div class="form-group">
                     <input class="form-control" name="name" placeholder="First, middle and/or last name" type="text">
                 </div>
@@ -51,9 +97,11 @@
                 <input class="form-control" name="email" placeholder="example@example.com" type="email">
             </div>
 
-            <div>
-                <button style="position: absolute; top: 250px; right: 45%;" class="btn btn-primary" type="submit">Register</button>
+            <div id="button">
+                <button class="btn btn-primary" type="submit">Register</button>
             </div>
         </div>
     </form>
+
+    <h6>Already have an account? <a href="/login">Sign in</a></h6>
 {% endblock %}

@@ -28,7 +28,59 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
+    position: static;
     display: block;
     border-bottom: 4px solid black;
+}
+
+.hero-text-main-page
+{
+    text-align: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#myNavbar
+{
+    background: -webkit-linear-gradient(left, #cca0ff, #a0eaff);
+}
+
+#myNavbar span, .myLink
+{
+    font-weight: 600;
+    color: black;
+}
+
+.myLink a:link
+{
+    color: black;
+    text-decoration: none;
+}
+
+.myLink a:hover
+{
+    color: black;
+}
+
+@media screen and (min-width: 1025px)
+{
+    .sticky 
+    {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    .sticky + .content 
+    {
+        padding-top: 60px;
+    }
+}
+
+.myLink
+{
+    padding-right: 18px;
 }
