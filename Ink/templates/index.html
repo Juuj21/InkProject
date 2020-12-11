@@ -5,56 +5,161 @@
 {% endblock %}
 
 {% block style %}
+    <!-- For computer -->
     <style>
-        .text
+        @media screen and (min-width: 1025px)
         {
-            font-size: 30px;
+            .text
+            {
+                font-size: 30px;
+            }
+            
+            .text2
+            {
+                font-size: 40px;
+            }
+
+            #hero-text1
+            {
+                font-size: 100px; 
+                color: black;
+            }
+
+            #hero-text2
+            {
+                font-size: 50px; 
+                color: black;
+            }
+
+            .introduction
+            {
+                font-size: 25px;
+            }
+            
+            #break
+            {
+                display: block;
+            }
+
+            .textAlign
+            {
+                text-align: center;
+            }
+
+            .profile
+            {
+                content:url("static/images/profile-pc-example.jpg")
+            }
+
+            .search
+            {
+                content:url("static/images/search-pc-example.jpg")
+            }
+
+            .jobs
+            {
+                content:url("static/images/jobs-pc-example.jpg")
+            }
         }
         
-        .text2
+    </style>
+    <!-- For cellphone -->
+    <style>
+        @media screen and (max-width: 600px)
         {
-            font-size: 40px;
+            .text
+            {
+                font-size: 20px;
+            }
+            
+            .text2
+            {
+                font-size: 30px;
+            }
+
+            #hero-text1
+            {
+                font-size: 80px; 
+                color: black;
+            }
+
+            #hero-text2
+            {
+                font-size: 40px; 
+                color: black;
+            }
+
+            #introduction
+            {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            #break
+            {
+                display: none;
+            }
+
+            .profile
+            {
+                content:url("static/images/profile-cell-example.jpg")
+            }
+
+            .search
+            {
+                content:url("static/images/search-cell-example.jpg")
+            }
+
+            .jobs
+            {
+                content:url("static/images/jobs-cell-example.jpg")
+            }
         }
-        
     </style>
 {% endblock %}
 
 {% block top %}
     <div class="hero-image-main-page">
         <div class="hero-text-main-page">
-            <h1 style="font-size: 100px; color: black;">Ink</h1>
-            <p style="font-size: 50px; color: black;">Welcome to Ink!</p>
+            <h1 id="hero-text1">Ink</h1>
+            <p id="hero-text2">Welcome to Ink!</p>
         </div>
     </div>
 {% endblock %}
 
 {% block main %}
-    <br><br><br>
+    <p class="introduction textAlign">Ink is a network website, where you can look for someone to hire or be hired!</p>
 
-    <p class="text" style="text-align: center;">Ink is a network website, where you can<br>look for someone to hire or be hired!</p>
-    <br><br>
-    <p class="text" style="text-align: center;">In Ink, you have 3 options on the navigation bar.</p>
     <br>
-    <ul class="text2">
-        <li class="text2">Profile</li>
 
-        <br>
-        <p class="text">In profile, you can set your information.<br>You can edit your photo and etc.</p>
-        <br>
+    <p class="introduction textAlign">In Ink, you have 3 options on the navigation bar.</p>
 
-        <li class="text2">Search</li>
+    <hr style="background-color: black;">
 
-        <br>
-        <p class="text">In search, you can look profiles from other people.</p>
-        <br>
+    <p class="introduction textAlign">In <strong>profile</strong>, you can set your information. You can edit your photo and etc.</p>
 
-        <li class="text2">Jobs</li>
+    <div style="text-align: center;">
+        <img class="profile" id="image" alt="Profile example">
+    </div>
 
-        <br>
-        <p class="text">In jobs, you can look for jobs to apply sending a<br>email, or post jobs for someone else to apply.</p>
-        <br>
-    </ul>
+    <hr style="background-color: black;">
 
-    <p class="text" style="text-align: center; font-size: 80px;">Go explore!</p>
-    <br><br><br>
+    <p class="introduction textAlign">In <strong>search</strong>, you can look profiles from other people.</p>
+
+    <div style="text-align: center;">
+        <img class="search" id="image" alt="Search example">
+    </div>
+
+    <hr style="background-color: black;">
+
+    <p class="introduction textAlign">In <strong>jobs</strong>, you can look for jobs to apply sending a email, or post jobs for someone else to apply.</p>
+
+    <div style="text-align: center;">
+        <img class="jobs" id="image" alt="Jobs example">
+    </div>
+
+    <hr style="background-color: black;">
+
+    <p class="introduction textAlign">Enjoy the website! :)</p>
+
 {% endblock %}

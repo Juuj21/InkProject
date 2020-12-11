@@ -41,7 +41,7 @@
             }
         }
         
-        h1, h5, h6, p
+        #alignText
         {
             text-align: left;
         }
@@ -58,13 +58,15 @@
 
         button 
         {
+            border-radius: 1rem;
             background-color: #0062cc;
             color: white;
             padding: 14px 20px;
             margin: 8px 0;
             border: none;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
+            width: auto;
         }
 
         button:hover
@@ -176,35 +178,47 @@
 
 {% block main %}
     <div>
-        <button onclick="document.getElementById('postJob').style.display='block';" style="width:auto;">Post a Job</button>
+        {% if message != None %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <button onclick="document.getElementById('postJob').style.display='block';">Post a Job</button>
 
         <button 
         onclick="document.getElementById('deleteJob').style.display='block';" 
         
-        style="width:auto; padding: 14px 20px; float: right; background-color: #db4b4b;">My Posted Jobs</button>
+        style="float: right; background-color: #db4b4b;">My Posted Jobs</button>
 
-        {% for i in range(jobsSearch|length) %}
-            <div class="card">
-                <h1 class="title">{{ jobsSearch[i].title }}</h1>
+        {% if jobsSearch|length != 0 %}
+            {% for i in range(jobsSearch|length) %}
+                <div class="card">
+                    <h1 class="title" id="alignText">{{ jobsSearch[i].title }}</h1>
 
-                <h5>&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].need }}</h5>
+                    <h5 id="alignText">&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].need }}</h5>
 
-                <br><br><br>
+                    <br><br><br>
 
-                <p>&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].description }}</p>
+                    <p id="alignText">&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].description }}</p>
 
-                <br><br><br><br>
+                    <br><br><br><br>
 
-                <h6 style="position: relative; top: 26px;">{{ jobsSearch[i].day_posted }}</h6>
+                    <h6 id="alignText" style="position: relative; top: 26px;">{{ jobsSearch[i].day_posted }}</h6>
 
-                <h6 style="text-align: right;">{{ jobsSearch[i].deadline }}</h6>
+                    <h6 id="alignText" style="text-align: right;">{{ jobsSearch[i].deadline }}</h6>
 
-                <hr style="border-bottom: 1px solid black; margin-top: 0;">
+                    <hr style="border-bottom: 1px solid black; margin-top: 0;">
 
-                <h5 style="text-align: center; font-size: 18px; position: relative; bottom: 15px;">{{ jobsSearch[i].email }}</h5>
-            </div>
-            <br><br><br><br><br><br>
-        {% endfor %}
+                    <h5 id="alignText" style="text-align: center; font-size: 18px; position: relative; bottom: 15px;">{{ jobsSearch[i].email }}</h5>
+                </div>
+                <br><br><br><br><br><br>
+            {% endfor %}
+        {% elif jobsSearch|length == 0 %}
+            <br><br><br>
+            <h2 style="text-align: center;">No jobs available :(</h2>
+        {% endif %}
         
         <div id="postJob" class="modal">
             <form class="modal-content animate" action="/jobs" method="post">
@@ -221,6 +235,7 @@
                     placeholder="Enter the Title of the Job" 
                     name="title"
                     id="title"
+                    maxlength="48"
                     required>
 
                     <br>
@@ -294,35 +309,42 @@
                 </div>
 
                 <div class="container">
-                    <button type="button"
-                    onclick="document.getElementById('delete').style.display='block';" 
+                    {% if userJobs|length != 0 %}
+                        <button type="button"
+                        onclick="document.getElementById('delete').style.display='block';" 
+                        
+                        style="width:140px; background-color: #db4b4b;">Delete a job</button>
                     
-                    style="width:140px; padding: 14px 20px; background-color: #db4b4b;">Delete a job</button>
-                    
-                    <!------------------------------------Jobs------------------------------------>
-                    
-                    {% for job in userJobs %}
-                        <div class="card">
+                        <!------------------------------------Jobs------------------------------------>
+                        {% for job in userJobs %}
+                            <div class="card">
 
-                            <h1 class="title">{{ job[0] }}<span style="float: right;"><h6 class="title">Job's Id: {{ jobsId[loop.index-1][0] }}</h6></span></h1>
+                                <h1 id="alignText" class="title">{{ job[0] }}<span style="float: right;"><h6 id="alignText" class="title">Job's Id: {{ jobsId[loop.index-1][0] }}</h6></span></h1>
 
-                            <h5>&nbsp;&nbsp;&nbsp;{{ job[1] }}</h5>
-                            <br><br><br>
+                                <h5 id="alignText">&nbsp;&nbsp;&nbsp;{{ job[1] }}</h5>
+                                <br><br><br>
 
-                            <p>&nbsp;&nbsp;&nbsp;{{ job[2] }}</p>
+                                <p id="alignText">&nbsp;&nbsp;&nbsp;{{ job[2] }}</p>
 
-                            <br><br><br><br>
+                                <br><br><br><br>
 
-                            <h6 style="position: relative; top: 26px;">{{ job[3] }}</h6>
+                                <h6 id="alignText" style="position: relative; top: 26px;">{{ job[3] }}</h6>
 
-                            <h6 style="text-align: right;">{{ job[4] }}</h6>
+                                <h6 id="alignText" style="text-align: right;">{{ job[4] }}</h6>
 
-                            <hr style="border-bottom: 1px solid black; margin-top: 0;">
+                                <hr style="border-bottom: 1px solid black; margin-top: 0;">
 
-                            <h5 style="text-align: center; font-size: 18px; position: relative; bottom: 15px;">{{ job[5] }}</h5>
+                                <h5 style="text-align: center; font-size: 18px; position: relative; bottom: 15px;">{{ job[5] }}</h5>
+                            </div>
+                            <br>
+                        {% endfor %}
+
+                    {% elif userJobs|length == 0 %}
+                        <h1 class="title">You don't have any jobs posted, what about post some?</h1>
+                        <div style="text-align: center;">
+                            <button type="button" onclick="document.getElementById('postJob').style.display='block'; document.getElementById('deleteJob').style.display='none';">Post a Job</button>
                         </div>
-                        <br>
-                    {% endfor %}
+                    {% endif %}
                 </div>
             </form>
         </div>
@@ -351,7 +373,7 @@
 
                     <br>
 
-                    <h6 class="title" for="id">Type the id of the job:</h6>
+                    <h6 class="title" for="id" id="alignText">Type the id of the job:</h6>
                     <h7>The job's id is located at the job card in "My Posted Jobs"</h7>
                     <br>
                     <input type="number"
@@ -363,7 +385,7 @@
 
                     <br><br>
 
-                    <h6 for="password">Type your password:</h6>
+                    <h6 for="password" id="alignText">Type your password:</h6>
 
                     <input type="password" 
                     
@@ -379,7 +401,7 @@
 
                         <button type="button" onclick="document.getElementById('delete').style.display='none'" class="cancelbtn" style="float: left;">Cancel</button>
 
-                        <button type="submit" name="deleteBtn" id="deleteBtn" onclick="submitForm()" style="width: auto; float: right; padding-top: 4%; padding-bottom: 4%; padding-right: 8%; padding-left: 8%;">Post</button>
+                        <button type="submit" name="deleteBtn" id="deleteBtn" onclick="submitForm()" style="width: auto; float: right; padding-top: 4%; padding-bottom: 4%; padding-right: 8%; padding-left: 8%;">Delete</button>
 
                     </div>
                 </div>

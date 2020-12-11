@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Register
+    Search
 {% endblock %}
 
 {% block style %}
@@ -19,8 +19,9 @@
 
         .card
         {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 300px;
+            box-shadow: 0 4px 8px 0 #00000033;
+            width: 300px;
+            height: 580px;
             margin: auto;
             text-align: center;
             font-family: arial;
@@ -72,9 +73,18 @@
                         <span>|&nbsp;{{ skill }}</span>
                         {% if loop.index == 3 %}
                             <span>|</span><br>
+                            {% endif %}
+
+                        {% if usersSearch[i].skills|length != 3 and loop.last %}
+                            <span>|</span>
                         {% endif %}
                     {% endfor %}
-                    <span>|</span>
+                    
+                    {% if usersSearch[i].skills|length == 1 %}
+                        <br><br>
+                    {% elif usersSearch[i].skills|length == 3%}
+                        <br>
+                    {% endif %}
                 </div>
 
                 <br>

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Main
+    Profile
 {% endblock %}
 
 {% block style %} <!-- First style: bootstrap stuff -->
@@ -133,17 +133,7 @@
 
         @media screen and (max-width: 600px)
         {
-            h1
-            {
-                font-size: 16px;
-            }
-
-            h2 
-            {
-                font-size: 16px;
-            }
-
-            span
+            #myDiv span
             {
                 font-size: 16px;
             }
@@ -154,6 +144,11 @@
             }
 
             .submit-btn
+            {
+                width: 100%;
+            }
+
+            .reset-btn
             {
                 width: 100%;
             }
@@ -172,6 +167,26 @@
             .modal-content
             {
                 width: auto;
+            }
+
+            .name
+            {
+                font-size: 1.5em;
+            }
+
+            .profession
+            {
+                font-size: 1.2em;
+            }
+
+            #break
+            {
+                display: block;
+            }
+
+            .reset-btn
+            {
+                margin-left: 3%;
             }
         }
 
@@ -223,17 +238,23 @@
             float: right;
         }
 
-        button 
+        .reset-btn
+        {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #0062cc;
+        }
+
+        button
         {
             border-radius: 1rem;
-            background-color: #4CAF50;
             color: white;
             padding: 14px 20px;
             margin: 8px 0;
             border: none;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
+            width: auto;
         }
     </style>
 
@@ -260,6 +281,16 @@
             .modal-content
             {
                 width: 50%;
+            }
+
+            #break
+            {
+                display: none;
+            }
+
+            .reset-btn
+            {
+                margin-left: 30%;
             }
         }
 
@@ -308,8 +339,15 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container card">
+    <div id="myDiv" class="container card">
         <form method="get">
+            {% if message != None %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endif %}
+            
             <div class="row">
                 <div class="col-md-3">
                     <div class="profile-image">
@@ -318,11 +356,12 @@
                 </div>
                 <div class="col-md-6">
                     <div class="profile-head">
-                        <h3>
+                        <br id="break">
+                        <h3 class="name">
                             {{ name }}
                         </h3>
 
-                        <h4>
+                        <h4 class="profession">
                             {{ profession }}
                         </h4>
 
@@ -446,7 +485,7 @@
                 <div class="container" style="text-align: center; font-size: 1.5em;">
                     <label for="inputFile" style="font-size: 2em;">File Input</label><br>
                     <br>
-                    <input type="file" name="inputFile" accept="image/x-png,image/gif,image/jpeg" required>
+                    <input type="file" name="inputFile" id="inputFile" accept="image/*" onchange="validateFileType()" required>
                 </div>
 
                 <br><br>
@@ -455,7 +494,9 @@
                     <br>
                     <button type="button" onclick="document.getElementById('change-pfp').style.display='none'" class="cancel-btn">Cancel</button>
 
-                    <button type="submit" class="submit-btn" id="submit">Submit</button>
+                    <button type="submit" class="reset-btn" id="reset" name="button-pfp" value="reset" onclick="document.getElementById('inputFile').removeAttribute('required')">Reset profile picture</button>
+
+                    <button type="submit" class="submit-btn" id="submit" name="button-pfp" value="submit">Submit</button>
                     <br><br>
                 </div>
             </form>
@@ -480,7 +521,7 @@
                     <br><br>
 
                     <label for="skills" style="font-weight: 600;">Skills: </label>
-                    <input class="form-control" type="text" placeholder="skill 1, skill 2, skill 3..." name="skills" value="{% for skill in skills -%}{{ skill }}{% if not loop.last %},{% else %}.{% endif %}{% endfor -%}">
+                    <input class="form-control" type="text" placeholder="skill 1, skill 2, skill 3..." name="skills" value="{% for skill in skills -%}{{ skill }}{% if not loop.last %},{% endif %}{% endfor -%}">
 
                     <br><br>
 
@@ -653,5 +694,23 @@
                 $(".file-upload").click();
             });
         });
+    </script>
+    <script type="text/javascript">
+        function validateFileType()
+        {
+            var fileName = document.getElementById("inputFile").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png")
+            {
+                document.getElementById("submit").disabled = false;
+            }
+            else
+            {
+                document.getElementById("submit").disabled = true;
+                alert("Only jpg/jpeg and png files are allowed!");
+            }
+        }
     </script>
 {% endblock %}

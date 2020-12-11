@@ -33,6 +33,11 @@
             {
                 display: none;
             }
+
+            body
+            {
+                overflow: hidden;
+            }
         }
     </style>
 
@@ -59,21 +64,29 @@
 {% endblock %}
 
 {% block main %}
+
+    {% if message != None %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endif %}
+
     <form action="/register" method="post">
 
         <div class="form-group">
 
             <div class="form-group" id="form">
                 <div class="form-group">
-                    <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+                    <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text" required>
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" name="password" placeholder="Password" type="password">
+                    <input class="form-control" name="password" placeholder="Password" type="password" required>
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" name="confirmation" placeholder="Password (again)" type="password">
+                    <input class="form-control" name="confirmation" placeholder="Password (again)" type="password" required>
                 </div>
             </div>
 
@@ -81,27 +94,26 @@
 
             <div class="form-group" id="form2">
                 <div class="form-group">
-                    <input class="form-control" name="name" placeholder="First, middle and/or last name" type="text">
+                    <input class="form-control" name="name" placeholder="First, middle and/or last name" type="text" required>
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" name="profession" placeholder="Profession" type="text">
+                    <input class="form-control" name="profession" placeholder="Profession" type="text" required>
                 </div>
 
                 <div class="form-group">
-                    <input class="form-control" name="skills" placeholder="Skill 1, skill 2, skill 3..." type="text">
+                    <input class="form-control" name="skills" placeholder="Skill 1, skill 2, skill 3..." type="text" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <input class="form-control" name="email" placeholder="example@example.com" type="email">
+                <input class="form-control" name="email" placeholder="example@example.com" type="email" required>
             </div>
 
             <div id="button">
                 <button class="btn btn-primary" type="submit">Register</button>
+                <span>Already have an account? <a href="/login">Sign in</a></span>
             </div>
         </div>
     </form>
-
-    <h6>Already have an account? <a href="/login">Sign in</a></h6>
 {% endblock %}
