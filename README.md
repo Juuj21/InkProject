@@ -59,6 +59,6 @@ In **jobs**, you can look for a job to do or post your own job for somebody else
 3. Go to the `Ink Project` folder
 4. Click with the right button on the `Ink` folder, then click in `Open with Code`
 5. Open the VS Code terminal (Windows: `Ctrl + Shift + '`
-6. On the terminal of VS CODE, type `python -m flask run`
+6. On the terminal of VS Code, type `python -m flask run`
 7. Open the link provided on the terminal
-8. To stop, press `Ctrl + C`
+8. To stop, press `Ctrl + C` on the VS Code
