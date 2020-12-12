@@ -199,11 +199,11 @@
 
                     <h5 id="alignText">&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].need }}</h5>
 
+                    <br><br>
+
+                    <p id="alignText">{{ jobsSearch[i].description }}</p>
+
                     <br><br><br>
-
-                    <p id="alignText">&nbsp;&nbsp;&nbsp;{{ jobsSearch[i].description }}</p>
-
-                    <br><br><br><br>
 
                     <h6 id="alignText" style="position: relative; top: 26px;">{{ jobsSearch[i].day_posted }}</h6>
 
@@ -248,6 +248,7 @@
                     placeholder="CSS, HTML, Python, C, Django, Flask, etc..." 
                     name="need"
                     id="need"
+                    maxlength="48"
                     required>
 
                     <br>
@@ -260,6 +261,7 @@
                     placeholder="Describe what you want the worker to do and etc" 
                     name="description" 
                     id="description" 
+                    maxlength="192"
                     required>
 
                     <br>
@@ -283,11 +285,14 @@
                     <!------------------------------------Email for contact------------------------------------> 
                     <label for="email"><b>Email for contact</b></label>
 
-                    <input type="text" 
+                    <br>
+
+                    <input type="email" class="form-control" style="height: 50px;"
                     
                     placeholder="Enter the email for contact" 
                     name="email" 
                     id="email" 
+                    maxlength="48"
                     required>
 
                     <!------------------------------------End of inputs------------------------------------> 
