@@ -61,3 +61,4 @@ In **jobs**, you can look for a job to do or post your own job for somebody else
 5. Open the VS Code terminal (Windows: `Ctrl + Shift + '`
 6. On the terminal of VS CODE, type `python -m flask run`
 7. Open the link provided on the terminal
+8. To stop, press `Ctrl + C`
